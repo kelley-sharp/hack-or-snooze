@@ -16,7 +16,7 @@ class StoryList {
 }
 
 class User {
-  constructor(userObj){
+  constructor(userObj) {
     this.username = userObj.username;
     this.name = userObj.name;
     this.loginToken = '';
@@ -24,18 +24,23 @@ class User {
     this.ownStories = [];
   }
 
-  static create (username, password, name, cb){
-    $.post('https://hack-or-snooze-v2.herokuapp.com/users', 
-    {user: {username, password, name}},
-     function(response){
-      var newUser = new User(response.user);
-      newUser.loginToken = response.token;
-      localStorage.setItem('token', response.token)
-      cb(newUser);
-    });
+  setToken(token) {
+    this.loginToken = token;
+    localStorage.setItem('token', token);
+  }
+ 
+  static create(username, password, name, cb) {
+    $.post(
+      'https://hack-or-snooze-v2.herokuapp.com/users',
+      { user: { username, password, name } },
+      function(response) {
+        let newUser = new User(response.user);
+        newUser.setToken(response.token);
+        cb(newUser);
+      }
+    );
   }
 }
-
 
 class Story {
   constructor(storyObj) {
@@ -45,5 +50,4 @@ class Story {
     this.url = storyObj.url;
     this.username = storyObj.username;
   }
-
 }
