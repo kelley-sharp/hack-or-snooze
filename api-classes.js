@@ -15,7 +15,27 @@ class StoryList {
   }
 }
 
-class User {}
+class User {
+  constructor(userObj){
+    this.username = userObj.username;
+    this.name = userObj.name;
+    this.loginToken = '';
+    this.favorites = [];
+    this.ownStories = [];
+  }
+
+  static create (username, password, name, cb){
+    $.post('https://hack-or-snooze-v2.herokuapp.com/users', 
+    {user: {username, password, name}},
+     function(response){
+      var newUser = new User(response.user);
+      newUser.loginToken = response.token;
+      localStorage.setItem('token', response.token)
+      cb(newUser);
+    });
+  }
+}
+
 
 class Story {
   constructor(storyObj) {
