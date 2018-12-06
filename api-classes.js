@@ -17,7 +17,7 @@ class StoryList {
   static addStory(currentUser, storyObj, cb){
     $.post('https://hack-or-snooze-v2.herokuapp.com/stories', function(response){
       let newStory = new Story(storyObj);
-      newStory.setToken('token', response.token)
+      newStory.setToken('token', response.token);
       newStory.author = response.author;
       newStory.title = response.title;
       newStory.url = response.url;
