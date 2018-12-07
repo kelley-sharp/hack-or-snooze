@@ -82,3 +82,24 @@ body {
 .m-top {
   margin-top: 5rem;
 }
+
+.logo-border {
+  border: 2px solid #fcfcfc;
+  margin-left: -15px;
+  margin-top: -15px;
+  margin-bottom: -15px;
+  width: 2rem;
+  height: 2rem;
+}
+
+#brand-bar {
+  background-color: #f16509fa;
+  font-weight: 400;
+  color: black;
+  height: 2rem;
+}
+
+#brand {
+  color: black;
+  font-size: large;
+}
