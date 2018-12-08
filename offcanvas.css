@@ -1,10 +1,12 @@
 html,
 body {
   overflow-x: hidden; /* Prevent scroll on narrow devices */
+  background-color: #f6f6ee;
 }
 
 body {
   padding-top: 56px;
+  background-color: #f6f6ee !important;
 }
 
 @media (max-width: 767.98px) {
@@ -89,17 +91,31 @@ body {
   margin-top: -15px;
   margin-bottom: -15px;
   width: 2rem;
-  height: 2rem;
+  height: 32px;
 }
 
 #brand-bar {
   background-color: #f16509fa;
   font-weight: 400;
-  color: black;
+  color: #332e2e;
   height: 2rem;
 }
 
 #brand {
-  color: black;
+  color: #332e2e;
   font-size: large;
+}
+
+#zzz {
+  width: 38px;
+}
+
+#nav {
+  background-color: #332e2e;
+}
+
+/* login */
+
+#login-submit {
+  margin-top: 30px;
 }
