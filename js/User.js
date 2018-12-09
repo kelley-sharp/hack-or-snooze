@@ -1,11 +1,10 @@
-
 class User {
   constructor(userObj) {
     this.username = userObj.username;
     this.name = userObj.name;
+    this.favorites = userObj.favorites;
+    this.ownStories = userObj.stories;
     this.loginToken = '';
-    this.favorites = [];
-    this.ownStories = [];
   }
 
   setToken(token) {
@@ -25,14 +24,21 @@ class User {
     );
   }
 
-  static login(username, password, cb) {
+  /**
+   * Makes a POST request to the API. Sets login token.
+   * Calls the "done" callback with a new instance of User.
+   * @param {String} username 
+   * @param {String} password 
+   * @param {Function} done a callback to run when the API request finishes 
+   */
+  static login(username, password, done) {
     $.post(
       'https://hack-or-snooze-v2.herokuapp.com/login',
       { user: { username, password } },
       function(response) {
-        let loggedInUser = new User();
+        let loggedInUser = new User(response.user);
         loggedInUser.setToken(response.token);
-        cb(loggedInUser);
+        done(loggedInUser);
       }
     );
   }
@@ -46,11 +52,4 @@ class User {
       cb(user);
     });
   }
-
-  static render(){
-    $("html").html(./login.html);
-  }
-
 }
-
-
