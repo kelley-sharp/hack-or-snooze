@@ -21,6 +21,7 @@ class StoryList {
       newStory.author = response.author;
       newStory.title = response.title;
       newStory.url = response.url;
+      newStory.preview = response.preview;
 
       //but the arg is a cb?
       let user = this.retrieveDetails(currentUser);
