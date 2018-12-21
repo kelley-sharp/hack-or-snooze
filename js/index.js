@@ -6,25 +6,25 @@ let LOGGED_IN = false;
 
 let user;
 
-
 // nav-link event listeners
-$('#news-feed-link').on('click', function(){
+$('#news-feed-link').on('click', function() {
   generateStories();
 });
-$('.sign-up-link').on('click', function(){
+$('.sign-up-link').on('click', function() {
   $('#sign-up-content').toggleClass('d-none');
   $('#stories-content').addClass('d-none');
   $('#login-content').toggleClass('d-none');
-})
+});
 $('#login-link').on('click', function() {
   $('#login-content').toggleClass('d-none');
   $('#stories-content').addClass('d-none');
 });
-$('#new-story-link').on('click', function(){
-  $('#new-story-form').removeClass('d-none').addClass('d-block');
+$('#new-story-link').on('click', function() {
+  $('#new-story-form')
+    .removeClass('d-none')
+    .addClass('d-block');
   $('#stories-content').addClass('d-none');
 });
-
 
 //helper function to show story html
 function generateStoryHTML(story) {
@@ -47,30 +47,34 @@ function generateStories() {
   });
 }
 
-//when user submits login, run User login method.
-$('#login-submit').on('click', function(e) {
-  e.preventDefault();
-  let username = $('#username').val();
-  let password = $('#password').val();
-  $('#login-form').on('submit', function(event) {
-    event.preventDefault();
-    User.login(username, password, function afterYouLoggedIn(theUser) {
-      $('#login-link').text('Logout');
-    });
+//when user submits login form, run User login method.
+$('#login-form').on('submit', function(event) {
+  event.preventDefault();
+  let username = $('#login-form.username').val();
+  let password = $('#login-form.password').val();
+  
+  User.login(username, password, function afterYouLoggedIn(theUser) {
+    $('#login-link').text('Logout');
   });
+
   LOGGED_IN = true;
 });
 
 //when user submits sign-up, run User sign-in method.
-$('#sign-up-submit').on('click', function(e){
+$('#sign-up-form').on('submit', function(e) {
   e.preventDefault();
-  let username = $('#sign-up-form.username').val();
-  let password = $('#sign-up-form.password').val();
-  let name = $('#sign-up-form.name').val();
+  let username = $('#signup-username').val();
+  let password = $('#signup-password').val();
+  let name = $('#signup-name').val();
+
   User.signUp(username, password, name, function afterYouSignedIn(newUser) {
-    $('#main-content').html('<h6>Thank you for signing up!</h6><small>You can now post stories and add stories to your favorites.</small>')
+    
+    $('#main-content').html(
+      '<h6>Thank you for signing up!</h6><small>You can now post stories and add stories to your favorites.</small>'
+    );
+
     $('#login-link').text('Logout');
   });
-  LOGGED_IN = true;
-})
 
+  LOGGED_IN = true;
+});

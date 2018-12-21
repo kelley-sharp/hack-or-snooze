@@ -12,24 +12,12 @@ class User {
     localStorage.setItem('token', token);
   }
 
-  static create(username, password, name, cb) {
-    $.post(
-      'https://hack-or-snooze-v2.herokuapp.com/users',
-      { user: { username, password, name } },
-      function(response) {
-        let newUser = new User(response.user);
-        newUser.setToken(response.token);
-        cb(newUser);
-      }
-    );
-  }
-
   /**
    * Makes a POST request to the API. Sets login token.
    * Calls the "done" callback with a new instance of User.
-   * @param {String} username 
-   * @param {String} password 
-   * @param {Function} done a callback to run when the API request finishes 
+   * @param {String} username
+   * @param {String} password
+   * @param {Function} done a callback to run when the API request finishes
    */
   static login(username, password, done) {
     $.post(
@@ -43,10 +31,11 @@ class User {
     );
   }
 
-  static signUp(username, password, name, signedUp){
-    $.post('https://hack-or-snooze-v2.herokuapp.com/signup',
+  static signUp(username, password, name, signedUp) {
+    $.post(
+      'https://hack-or-snooze-v2.herokuapp.com/signup',
       { user: { username, password, name } },
-      function(response){
+      function(response) {
         let newUser = new User(response.user);
         newUser.setToken(response.token);
         signedUp(newUser);
