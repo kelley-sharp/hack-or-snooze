@@ -9,6 +9,10 @@ body {
   background-color: #f6f6ee !important;
 }
 
+.nav-item {
+  cursor: pointer;
+}
+
 @media (max-width: 767.98px) {
   .offcanvas-collapse {
     position: fixed;
@@ -122,4 +126,11 @@ body {
 
 #main-content {
   margin-top: 0 !important;
+}
+
+/* sign up */
+
+.sign-up-link {
+  cursor: pointer;
+  color: #28a745 !important;
 }

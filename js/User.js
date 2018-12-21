@@ -43,6 +43,17 @@ class User {
     );
   }
 
+  static signUp(username, password, name, signedUp){
+    $.post('https://hack-or-snooze-v2.herokuapp.com/signup',
+      { user: { username, password, name } },
+      function(response){
+        let newUser = new User(response.user);
+        newUser.setToken(response.token);
+        signedUp(newUser);
+      }
+    );
+  }
+
   static retrieveDetails(cb) {
     $.get('https://hack-or-snooze-v2.herokuapp.com/users', function(response) {
       let user = new User();

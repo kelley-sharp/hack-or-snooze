@@ -6,6 +6,27 @@ let LOGGED_IN = false;
 
 let user;
 
+
+// nav-link event listeners
+$('#news-feed-link').on('click', function(){
+  generateStories();
+});
+$('.sign-up-link').on('click', function(){
+  $('#sign-up-content').toggleClass('d-none');
+  $('#stories-content').addClass('d-none');
+  $('#login-content').toggleClass('d-none');
+})
+$('#login-link').on('click', function() {
+  $('#login-content').toggleClass('d-none');
+  $('#stories-content').addClass('d-none');
+});
+$('#new-story-link').on('click', function(){
+  $('#new-story-form').removeClass('d-none').addClass('d-block');
+  $('#stories-content').addClass('d-none');
+});
+
+
+//helper function to show story html
 function generateStoryHTML(story) {
   const storyMarkup = `<p class="media-body pb-3 pt-3 mb-0 small lh-125 border-bottom border-gray story-preview">
     <strong class="d-block text-gray-dark title">
@@ -26,8 +47,7 @@ function generateStories() {
   });
 }
 
-//when user clicks signup/login, render the correct form/html.
-
+//when user submits login, run User login method.
 $('#login-submit').on('click', function(e) {
   e.preventDefault();
   let username = $('#username').val();
@@ -35,8 +55,22 @@ $('#login-submit').on('click', function(e) {
   $('#login-form').on('submit', function(event) {
     event.preventDefault();
     User.login(username, password, function afterYouLoggedIn(theUser) {
-      // you're finally logged in
+      $('#login-link').text('Logout');
     });
   });
   LOGGED_IN = true;
 });
+
+//when user submits sign-up, run User sign-in method.
+$('#sign-up-submit').on('click', function(e){
+  e.preventDefault();
+  let username = $('#sign-up-form.username').val();
+  let password = $('#sign-up-form.password').val();
+  let name = $('#sign-up-form.name').val();
+  User.signUp(username, password, name, function afterYouSignedIn(newUser) {
+    $('#main-content').html('<h6>Thank you for signing up!</h6><small>You can now post stories and add stories to your favorites.</small>')
+    $('#login-link').text('Logout');
+  });
+  LOGGED_IN = true;
+})
+
