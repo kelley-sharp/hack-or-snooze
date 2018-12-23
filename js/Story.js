@@ -6,6 +6,7 @@ class Story {
     this.title = storyObj.title;
     this.url = storyObj.url;
     this.username = storyObj.username;
-    this.preview = storyObj.preview;
+    this.userToken = '';
   }
+
 }

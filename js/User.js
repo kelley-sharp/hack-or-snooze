@@ -1,15 +1,21 @@
+const BASE_URL = 'https://hack-or-snooze-v2.herokuapp.com';
+
 class User {
-  constructor(userObj) {
+  constructor(userObj, token = localStorage.getItem('token')) {
     this.username = userObj.username;
     this.name = userObj.name;
     this.favorites = userObj.favorites;
     this.ownStories = userObj.stories;
-    this.loginToken = '';
+    this._loginToken = token;
+    if (!this._loginToken) {
+      throw new Error('User instance needs a token to be created.');
+    }
+    this.persist();
   }
 
-  setToken(token) {
-    this.loginToken = token;
-    localStorage.setItem('token', token);
+  persist() {
+    localStorage.setItem('token', this._loginToken);
+    localStorage.setItem('username', this.username);
   }
 
   /**
@@ -20,36 +26,56 @@ class User {
    * @param {Function} done a callback to run when the API request finishes
    */
   static login(username, password, done) {
-    $.post(
-      'https://hack-or-snooze-v2.herokuapp.com/login',
-      { user: { username, password } },
-      function(response) {
-        let loggedInUser = new User(response.user);
-        loggedInUser.setToken(response.token);
-        done(loggedInUser);
-      }
-    );
+    $.post(`${BASE_URL}/login`, { user: { username, password } }, function(
+      response
+    ) {
+      let loggedInUser = new User(response.user, response.token);
+      done(loggedInUser);
+    });
   }
 
   static signUp(username, password, name, signedUp) {
     $.post(
-      'https://hack-or-snooze-v2.herokuapp.com/signup',
+      `${BASE_URL}/signup`,
       { user: { username, password, name } },
       function(response) {
-        let newUser = new User(response.user);
-        newUser.setToken(response.token);
+        let newUser = new User(response.user, response.token);
         signedUp(newUser);
       }
     );
   }
 
-  static retrieveDetails(cb) {
-    $.get('https://hack-or-snooze-v2.herokuapp.com/users', function(response) {
-      let user = new User();
-      user.setToken(response.token);
-      user.stories = response.stories;
-      user.favorites = response.favorites;
-      cb(user);
-    });
+  static stayLoggedIn(done) {
+    // check for username and token from local storage
+    let username = localStorage.getItem('username');
+    let token = localStorage.getItem('token');
+
+    // if we have a username and token, we're logged in
+    if (username && token) {
+      let existingUser = new User({ username }, token);
+      existingUser.retrieveDetails(function(updatedUser) {
+        return done(updatedUser);
+      });
+    } else {
+      // otherwise we need to log in again
+      return done(null);
+    }
+  }
+
+  retrieveDetails(done) {
+    // callback for jQuery GET
+    const handleResponse = function({ user }) {
+      this.username = user.username;
+      this.name = user.name;
+      this.favorites = user.favorites;
+      this.ownStories = user.stories;
+      return done(this);
+    }.bind(this); // make sure "this" points to the User instance
+
+    // make the API call
+    $.get(
+      `${BASE_URL}/users/${this.username}?token=${this._loginToken}`,
+      handleResponse
+    );
   }
 }
