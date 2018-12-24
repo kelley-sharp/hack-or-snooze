@@ -47,15 +47,6 @@
           <li class="nav-item">
             <a class="nav-link" id="favorites-link">Favorites</a>
           </li>
-          <!--
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="./about_me.html" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
-              <div class="dropdown-menu" aria-labelledby="dropdown01">
-                <a class="dropdown-item" href="./User.html">About me</a>
-                <a class="dropdown-item" href="./my_stories.html">My stories</a>
-              </div>
-            </li>
-          -->
           <li class="nav-item">
             <a class="nav-link" id="login-link">Login</a>
           </li>
@@ -147,6 +138,12 @@
           </div>
         </div>
 
+        <div id="favorites-content" class="d-none">
+          <h6 class="border-bottom border-gray pb-2 mb-0">Favorite stories</h6>
+          <div class="media text-muted"><ul id="favorites-list-area"></ul></div>
+          <small class="d-block text-right mt-3"> <a href="#">Next</a> </small>
+        </div>
+
         <!-- login form -->
         <div id="login-content" class="d-none">
           <h6 class="border-bottom border-gray pb-2 mb-0">Login</h6>
@@ -184,15 +181,15 @@
               </div>
               <small
                 >Don't have an account?
-                <a class="sign-up-link">Sign up here</a></small
+                <a id="sign-up-link">Sign up here</a></small
               >
             </form>
           </div>
         </div>
 
         <!-- new story form -->
-        <div id="new-story-content" class="d-none">
-          <h6 class="border-bottom border-gray pb-2 mb-0">Post a story</h6>
+        <div id="my-stories-content" class="d-none">
+          <h6 class="border-bottom border-gray pb-2 mb-0">Post a new story</h6>
           <div class="media text-muted pt-3">
             <img
               data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1"
@@ -237,14 +234,19 @@
               </div>
             </form>
           </div>
+          <h6 class="border-bottom border-gray pt-3 pb-3 mb-0">
+            Posted stories
+          </h6>
+          <div class="media text-muted"><ul id="posted-story-list-area"></ul></div>
+          <small class="d-block text-right mt-3"> <a href="#">Next</a> </small>
         </div>
 
         <!-- stories list -->
-        <div id="stories-content">
+        <div id="stories-content" class="d-none">
           <h6 class="border-bottom border-gray pt-3 pb-3 mb-0">
             Recent stories
           </h6>
-          <div class="media text-muted"><ul class="story-list-area"></ul></div>
+          <div class="media text-muted"><ul id="story-list-area"></ul></div>
           <small class="d-block text-right mt-3"> <a href="#">Next</a> </small>
         </div>
       </div>

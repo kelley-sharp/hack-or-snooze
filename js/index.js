@@ -16,29 +16,27 @@ user = User.stayLoggedIn(function(existingUser) {
 
 /* On Page Load */
 $(document).ready(function() {
-  generateStories();
+  onlyShowStories();
 
   /* nav-link event listeners */
+
   $('#news-feed-link').on('click', function() {
-    generateStories();
+    onlyShowStories();
   });
-  $('.sign-up-link').on('click', function() {
-    $('#sign-up-content').removeClass('d-none');
-    $('#stories-content').addClass('d-none');
-    $('#login-content').addClass('d-none');
+  $('#sign-up-link').on('click', function() {
+    onlyShowSignUp();
   });
   $('#login-link').on('click', function() {
-    $('#login-content').removeClass('d-none');
-    $('#stories-content').addClass('d-none');
+    onlyShowLogin();
   });
   $('#my-stories-link').on('click', function() {
-    if (LOGGED_IN !== true) {
-      alert('You must be logged in to post stories.');
-    } else {
-      $('#new-story-content').removeClass('d-none');
-      $('#stories-content').addClass('d-none');
-      $('#login-content').addClass('d-none');
-    }
+    onlyShowMyStories();
+  });
+  $('#favorites-link').on('click', function() {
+    onlyShowFavorites();
+  });
+  $('.fa-star').on('click', function() {
+    toggleFavorite();
   });
 
   /* form event listeners */
@@ -77,6 +75,86 @@ $(document).ready(function() {
   });
 });
 
+//show only stories
+function onlyShowStories() {
+  //show stories
+  generateStories();
+  $('#stories-content').removeClass('d-none');
+  //hide all the other stuff
+  $('#login-content').addClass('d-none');
+  $('#sign-up-content').addClass('d-none');
+  $('#my-stories-content').addClass('d-none');
+  $('#favorites-content').addClass('d-none');
+}
+
+function onlyShowSignUp() {
+  //show sign up form
+  $('#sign-up-content').removeClass('d-none');
+  //hide all the other stuff
+  $('#stories-content').addClass('d-none');
+  $('#login-content').addClass('d-none');
+  $('#my-stories-content').addClass('d-none');
+  // $('#favorites-content').addClass('d-none');
+}
+
+function onlyShowLogin() {
+  //show login form
+  $('#login-content').removeClass('d-none');
+  //hide all the other stuff
+  $('#stories-content').addClass('d-none');
+  $('#sign-up-content').addClass('d-none');
+  $('#my-stories-content').addClass('d-none');
+  $('#favorites-content').addClass('d-none');
+}
+
+function onlyShowMyStories() {
+  if (LOGGED_IN !== true) {
+    alert('You must be logged in to post stories.');
+  } else {
+    //show new story form & my stories
+    $('#my-stories-content').removeClass('d-none');
+    user.ownStories.forEach(story => {
+      let storyMarkup = generateStoryHTML(story);
+      $('#posted-story-list-area').append(storyMarkup);
+    });
+    //hide everything else
+    $('#stories-content').addClass('d-none');
+    $('#login-content').addClass('d-none');
+    $('#sign-up-content').addClass('d-none');
+    $('#favorites-content').addClass('d-none');
+  }
+}
+
+function onlyShowFavorites() {
+  if (LOGGED_IN !== true) {
+    alert('You must be logged in to favorite stories.');
+  } else {
+    //show favorites
+    $('#favorites-content').removeClass('d-none');
+    user.favorites.forEach(story => {
+      let storyMarkup = generateStoryHTML(story);
+      $('#favorites-list-area').append(storyMarkup);
+    });
+    //hide everything else
+    $('#stories-content').addClass('d-none');
+    $('#login-content').addClass('d-none');
+    $('#sign-up-content').addClass('d-none');
+    $('#my-stories-content').addClass('d-none');
+  }
+}
+
+// function toggleFavorite() {
+//   //toggle star icon
+//   $('.fa-star').toggleClass('fas');
+//   let story = $(this).parent();
+//   // add to user.favorites
+//   if ($(this).hasClass('fas')) {
+//   } else {
+//     // remove from user.favorites
+//     user.favorites.shift(story);
+//   }
+// }
+
 //helper function to show story html
 function generateStoryHTML(story) {
   const storyMarkup = `<p class="media-body pb-3 pt-3 mb-0 small lh-125 border-bottom border-gray story-preview">
@@ -86,7 +164,7 @@ function generateStoryHTML(story) {
     </strong>
     <small>posted by: ${story.author}</small>
   </p>`;
-  $('.story-list-area').append(storyMarkup);
+  return storyMarkup;
 }
 
 //to get the list of stories
@@ -94,7 +172,8 @@ function generateStories() {
   StoryList.getStories(function handleResponse(currentStories) {
     currentStoryList = currentStories;
     currentStoryList.stories.forEach(story => {
-      generateStoryHTML(story);
+      let storyMarkup = generateStoryHTML(story);
+      $('#story-list-area').append(storyMarkup);
     });
   });
 }
