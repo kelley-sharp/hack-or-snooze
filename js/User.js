@@ -63,19 +63,25 @@ class User {
   }
 
   retrieveDetails(done) {
-    // callback for jQuery GET
-    const handleResponse = function({ user }) {
-      this.username = user.username;
-      this.name = user.name;
-      this.favorites = user.favorites;
-      this.ownStories = user.stories;
-      return done(this);
-    }.bind(this); // make sure "this" points to the User instance
-
     // make the API call
     $.get(
       `${BASE_URL}/users/${this.username}?token=${this._loginToken}`,
-      handleResponse
+      response => {
+        const { user } = response;
+        this.username = user.username;
+        this.name = user.name;
+        this.favorites = user.favorites;
+        this.ownStories = user.stories;
+        return done(this);
+      }
+    );
+  }
+
+  addFavorite(storyId, done) {
+    $.post(
+      `${BASE_URL}/users/${this.username}/favorites/${storyId}`,
+      { token: this._loginToken },
+      response => this.retrieveDetails(() => done(this))
     );
   }
 }

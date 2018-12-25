@@ -35,8 +35,8 @@ $(document).ready(function() {
   $('#favorites-link').on('click', function() {
     onlyShowFavorites();
   });
-  $('.fa-star').on('click', function() {
-    toggleFavorite();
+  $('#stories-content').on('click', function(event) {
+    toggleFavorite(event);
   });
 
   /* form event listeners */
@@ -126,6 +126,7 @@ function onlyShowMyStories() {
 }
 
 function onlyShowFavorites() {
+  debugger;
   if (LOGGED_IN !== true) {
     alert('You must be logged in to favorite stories.');
   } else {
@@ -143,23 +144,33 @@ function onlyShowFavorites() {
   }
 }
 
-// function toggleFavorite() {
-//   //toggle star icon
-//   $('.fa-star').toggleClass('fas');
-//   let story = $(this).parent();
-//   // add to user.favorites
-//   if ($(this).hasClass('fas')) {
-//   } else {
-//     // remove from user.favorites
-//     user.favorites.shift(story);
-//   }
-// }
+function toggleFavorite(event) {
+  //toggle star icon. fas is solid star.
+  let target = event.target;
+  target.toggleClass('fas');
+  let storyId = event.target.id;
+  // if the story has a star icon with the solid star, add it to favorites, update user.
+  if (event.target.hasClass('fas')) {
+    user.addFavorite(storyId, function afterFavoriteAdded(
+      userWithAddedFavorite
+    ) {
+      user = userWithAddedFavorite;
+    });
+  } else {
+    //if the story does not have solid star, remove it from favorites, update user.
+    user.removeFavorite(storyId, function afterFavoriteRemoved(
+      userWithRemovedFavorite
+    ) {
+      user = userWithRemovedFavorite;
+    });
+  }
+}
 
 //helper function to show story html
 function generateStoryHTML(story) {
-  const storyMarkup = `<p class="media-body pb-3 pt-3 mb-0 small lh-125 border-bottom border-gray story-preview">
+  const storyMarkup = `<p class="media-body pb-3 pt-3 mb-0 small lh-125 border-bottom border-gray">
     <strong class="d-block text-gray-dark title">
-      <i class="far fa-star"></i>
+      <i id='${story.storyId}'class="far fa-star"></i>
       ${story.title}
     </strong>
     <small>posted by: ${story.author}</small>
