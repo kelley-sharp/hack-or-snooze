@@ -7,16 +7,17 @@ let user;
 // list of stories
 let currentStoryList;
 
-// attempt to grab token and get user info ASAP
-user = User.stayLoggedIn(function(existingUser) {
-  user = existingUser;
-  console.log(user);
-  LOGGED_IN = true;
-});
-
 /* On Page Load */
 $(document).ready(function() {
-  onlyShowStories();
+  // attempt to grab token and get user info ASAP
+  user = User.stayLoggedIn(function(existingUser) {
+    user = existingUser;
+    if (user) {
+      LOGGED_IN = true;
+      $('#login-link').text('Logout');
+    }
+    onlyShowStories();
+  });
 
   /* nav-link event listeners */
 
@@ -36,7 +37,11 @@ $(document).ready(function() {
     onlyShowFavorites();
   });
   $('#stories-content').on('click', function(event) {
-    toggleFavorite(event);
+    if (LOGGED_IN) {
+      toggleFavorite(event);
+    } else {
+      alert('You must be logged in to favorite stories!');
+    }
   });
 
   /* form event listeners */
@@ -49,11 +54,10 @@ $(document).ready(function() {
     let username = $('#login-username').val();
     let password = $('#login-password').val();
     User.login(username, password, function afterYouLoggedIn(theUser) {
-      $('#login-link').text('Logout');
       user = theUser;
+      LOGGED_IN = true;
+      $('#login-link').text('Logout');
     });
-
-    LOGGED_IN = true;
   });
 
   //when user submits sign-up, run User sign-in method.
@@ -67,11 +71,9 @@ $(document).ready(function() {
       $('#main-content').html(
         '<h6>Thank you for signing up!</h6><small>You can now post stories and add stories to your favorites.</small>'
       );
-
+      LOGGED_IN = true;
       $('#login-link').text('Logout');
     });
-
-    LOGGED_IN = true;
   });
 });
 
@@ -126,7 +128,6 @@ function onlyShowMyStories() {
 }
 
 function onlyShowFavorites() {
-  debugger;
   if (LOGGED_IN !== true) {
     alert('You must be logged in to favorite stories.');
   } else {
@@ -145,36 +146,47 @@ function onlyShowFavorites() {
 }
 
 function toggleFavorite(event) {
-  //toggle star icon. fas is solid star.
-  let target = event.target;
-  target.toggleClass('fas');
   let storyId = event.target.id;
-  // if the story has a star icon with the solid star, add it to favorites, update user.
-  if (event.target.hasClass('fas')) {
+
+  //if DOES NOT HAVE solid star, add it and add to favorites, update user.
+  if (!$(event.target).hasClass('fas')) {
     user.addFavorite(storyId, function afterFavoriteAdded(
       userWithAddedFavorite
     ) {
       user = userWithAddedFavorite;
+      $(event.target).addClass('fas');
     });
   } else {
-    //if the story does not have solid star, remove it from favorites, update user.
+    //if the story HAS solid star, remove it, remove from favorites, update user.
     user.removeFavorite(storyId, function afterFavoriteRemoved(
       userWithRemovedFavorite
     ) {
       user = userWithRemovedFavorite;
+      $(event.target).removeClass('fas');
     });
   }
 }
 
 //helper function to show story html
 function generateStoryHTML(story) {
-  const storyMarkup = `<p class="media-body pb-3 pt-3 mb-0 small lh-125 border-bottom border-gray">
-    <strong class="d-block text-gray-dark title">
-      <i id='${story.storyId}'class="far fa-star"></i>
-      ${story.title}
-    </strong>
-    <small>posted by: ${story.author}</small>
-  </p>`;
+  let storyMarkup;
+  if (LOGGED_IN && user.favorites.find(s => s.storyId === story.storyId)) {
+    storyMarkup = `<p class="media-body pb-3 pt-3 mb-0 small lh-125 border-bottom border-gray">
+      <strong class="d-block text-gray-dark title">
+        <i id='${story.storyId}'class="far fa-star fas"></i>
+        ${story.title}
+      </strong>
+      <small>posted by: ${story.author}</small>
+    </p>`;
+  } else {
+    storyMarkup = `<p class="media-body pb-3 pt-3 mb-0 small lh-125 border-bottom border-gray">
+      <strong class="d-block text-gray-dark title">
+        <i id='${story.storyId}'class="far fa-star"></i>
+        ${story.title}
+      </strong>
+      <small>posted by: ${story.author}</small>
+    </p>`;
+  }
   return storyMarkup;
 }
 

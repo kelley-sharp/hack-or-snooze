@@ -84,4 +84,13 @@ class User {
       response => this.retrieveDetails(() => done(this))
     );
   }
+
+  removeFavorite(storyId, done) {
+    $.ajax({
+      url: `${BASE_URL}/users/${this.username}/favorites/${storyId}`,
+      method: 'DELETE',
+      data: { token: this._loginToken },
+      success: response => this.retrieveDetails(() => done(this))
+    });
+  }
 }
