@@ -167,14 +167,24 @@ function toggleFavorite(event) {
   }
 }
 
-//helper function to show story html
+//helper functions to show story html
+
+function getLocation(href) {
+  var l = document.createElement('a');
+  l.href = href;
+  return l;
+}
+
 function generateStoryHTML(story) {
   let storyMarkup;
+  let location = getLocation(story.url);
+  let hostname = location.hostname;
   if (LOGGED_IN && user.favorites.find(s => s.storyId === story.storyId)) {
     storyMarkup = `<p class="media-body pb-3 pt-3 mb-0 small lh-125 border-bottom border-gray">
       <strong class="d-block text-gray-dark title">
         <i id='${story.storyId}'class="far fa-star fas"></i>
-        ${story.title}
+        ${story.title} 
+        <small><a href='${story.url}'>(${hostname})</a></small>
       </strong>
       <small>posted by: ${story.author}</small>
     </p>`;
@@ -183,6 +193,7 @@ function generateStoryHTML(story) {
       <strong class="d-block text-gray-dark title">
         <i id='${story.storyId}'class="far fa-star"></i>
         ${story.title}
+        <small><a href='${story.url}'>(${hostname})</a></small>
       </strong>
       <small>posted by: ${story.author}</small>
     </p>`;
