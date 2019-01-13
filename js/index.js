@@ -48,6 +48,12 @@ $(document).ready(function() {
   //when user submits new-story form, sends new story to the StoryList addStory method
   $('#new-story-form').on('submit', submitNewStory);
 
+  /* other event listeners */
+  $('#next-link-newsfeed').on('click', function (event) {
+    let toSkip = $('#story-list-area p').length
+    generateStories(toSkip);
+  })
+
   //when user submits login form, run User login method.
   $('#login-form').on('submit', function(event) {
     event.preventDefault();
@@ -79,8 +85,12 @@ $(document).ready(function() {
 
 //show only stories
 function onlyShowStories() {
+  //if there aren't already stories on the page generate them.
+  if ($('#story-list-area p').length == 0){
+    generateStories();
+  }
+
   //show stories
-  generateStories();
   $('#stories-content').removeClass('d-none');
   //hide all the other stuff
   $('#login-content').addClass('d-none');
@@ -203,8 +213,8 @@ function generateStoryHTML(story) {
 }
 
 //to get the list of stories
-function generateStories() {
-  StoryList.getStories(function handleResponse(currentStories) {
+function generateStories(toSkip) {
+  StoryList.getStories(toSkip, function handleResponse(currentStories) {
     currentStoryList = currentStories;
     currentStoryList.stories.forEach(story => {
       let storyMarkup = generateStoryHTML(story);

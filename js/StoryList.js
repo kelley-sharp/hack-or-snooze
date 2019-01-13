@@ -5,8 +5,8 @@ class StoryList {
     this.stories = stories;
   }
 
-  static getStories(done) {
-    $.get(`${API_URL}/stories`, function processResponse(response) {
+  static getStories(toSkip = 0, done) {
+    $.get(`${API_URL}/stories?skip=${toSkip}&limit=10`, function processResponse(response) {
       let storyList = new StoryList(
         response.stories.map(story => new Story(story))
       );
