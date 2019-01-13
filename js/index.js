@@ -133,6 +133,7 @@ function onlyShowFavorites() {
   } else {
     //show favorites
     $('#favorites-content').removeClass('d-none');
+    $('#favorites-list-area').empty();
     user.favorites.forEach(story => {
       let storyMarkup = generateStoryHTML(story);
       $('#favorites-list-area').append(storyMarkup);
