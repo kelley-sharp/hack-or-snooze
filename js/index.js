@@ -106,7 +106,7 @@ function onlyShowSignUp() {
   $('#stories-content').addClass('d-none');
   $('#login-content').addClass('d-none');
   $('#my-stories-content').addClass('d-none');
-  // $('#favorites-content').addClass('d-none');
+  $('#favorites-content').addClass('d-none');
 }
 
 function onlyShowLogin() {
@@ -127,7 +127,7 @@ function onlyShowMyStories() {
     $('#my-stories-content').removeClass('d-none');
     user.ownStories.forEach(story => {
       let storyMarkup = generateStoryHTML(story);
-      $('#posted-story-list-area').append(storyMarkup);
+      $('#posted-story-list-area').prepend(storyMarkup);
     });
     //hide everything else
     $('#stories-content').addClass('d-none');
@@ -227,16 +227,16 @@ function submitNewStory(event) {
   event.preventDefault();
 
   // get form data
+  let username = user.username;
   let title = $('#new-story-title').val();
   let author = $('#new-story-author').val();
   let url = $('#new-story-url').val();
 
   // make a new story
-  let newStoryObj = { title, author, url };
+  let newStoryObj = { username, title, author, url };
 
   currentStoryList.addStory(user, newStoryObj, function afterYouAddedStory() {
-    $('new-story-content').addClass('d-none');
-    $('#stories-content').removeClass('d-none');
+    $('#posted-story-list-area').append(newStoryObj);
     generateStories();
   });
 }

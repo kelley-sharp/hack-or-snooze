@@ -15,7 +15,7 @@ class StoryList {
   }
 
   addStory(currentUser, storyObj, theStoryIsReadyNow) {
-    let storyPostBody = { story: storyObj, token: currentUser.loginToken };
+    let storyPostBody = { story: storyObj, token: currentUser._loginToken };
 
     $.post(`${API_URL}/stories`, storyPostBody, (response) => {
       // instantiate a story using the response
