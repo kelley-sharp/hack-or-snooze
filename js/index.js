@@ -57,11 +57,6 @@ $(document).ready(function() {
   $('#new-story-form').on('submit', submitNewStory);
 
   /* other event listeners */
-  // $('#more-link-newsfeed').on('click', function (event) {
-  //   let toSkip = $('#story-list-area p').length
-  //   generateStories(toSkip);
-  // })
-
   $('#more-link-newsfeed').click(function(){
     let toSkip = $('#story-list-area p').length
     generateStories(toSkip);
@@ -69,6 +64,11 @@ $(document).ready(function() {
       scrollTop:$(document).height()-$(window).height()},
       "swing");
   });
+
+  // post a new story adds story to My stories under form
+  $('#btn__submit-story').click(function(){
+    location.reload();
+  })
 
   //when user submits login form, run User login method.
   $('#login-form').on('submit', function(event) {
@@ -108,11 +108,17 @@ function onlyShowStories() {
 
   //show stories
   $('#stories-content').removeClass('d-none');
+  $('#news-feed-link').addClass("active");
+
   //hide all the other stuff
   $('#login-content').addClass('d-none');
   $('#sign-up-content').addClass('d-none');
   $('#my-stories-content').addClass('d-none');
   $('#favorites-content').addClass('d-none');
+  //remove active class from other stuff
+  $('#favorites-link').removeClass("active");
+  $('#my-stories-link').removeClass("active");
+  $('#login-link').removeClass("active");
 }
 
 function onlyShowSignUp() {
@@ -128,11 +134,16 @@ function onlyShowSignUp() {
 function onlyShowLogin() {
   //show login form
   $('#login-content').removeClass('d-none');
+  $('#login-link').addClass("active");
   //hide all the other stuff
   $('#stories-content').addClass('d-none');
   $('#sign-up-content').addClass('d-none');
   $('#my-stories-content').addClass('d-none');
   $('#favorites-content').addClass('d-none');
+  //turn active off other links
+  $('#favorites-link').removeClass("active");
+  $('#news-feed-link').removeClass("active");
+  $('#my-stories-link').removeClass("active");
 }
 
 function onlyShowMyStories() {
@@ -141,6 +152,8 @@ function onlyShowMyStories() {
   } else {
     //show new story form & my stories
     $('#my-stories-content').removeClass('d-none');
+    $("#my-stories-link").addClass('active');
+
     user.ownStories.forEach(story => {
       let storyMarkup = generateStoryHTML(story);
       $('#posted-story-list-area').prepend(storyMarkup);
@@ -150,6 +163,10 @@ function onlyShowMyStories() {
     $('#login-content').addClass('d-none');
     $('#sign-up-content').addClass('d-none');
     $('#favorites-content').addClass('d-none');
+    //remove active class from other stuff
+    $('#favorites-link').removeClass("active");
+    $('#news-feed-link').removeClass("active");
+    $('#login-link').removeClass("active");
   }
 }
 
@@ -160,6 +177,7 @@ function onlyShowFavorites() {
     //show favorites
     $('#favorites-content').removeClass('d-none');
     $('#favorites-list-area').empty();
+    $('#favorites-link').addClass('active');
     user.favorites.forEach(story => {
       let storyMarkup = generateStoryHTML(story);
       $('#favorites-list-area').append(storyMarkup);
@@ -169,6 +187,10 @@ function onlyShowFavorites() {
     $('#login-content').addClass('d-none');
     $('#sign-up-content').addClass('d-none');
     $('#my-stories-content').addClass('d-none');
+    //remove active class from other stuff
+    $('#my-stories-link').removeClass("active");
+    $('#news-feed-link').removeClass("active");
+    $('#login-link').removeClass("active");
   }
 }
 
