@@ -7,8 +7,16 @@ let user;
 // list of stories
 let currentStoryList;
 
+let $body = $("body");
+
+$(document).on({
+  ajaxStart: function() { $body.addClass("loading");},
+  ajaxStop: function() { $body.removeClass("loading"); }    
+});
+
 /* On Page Load */
 $(document).ready(function() {
+
   // attempt to grab token and get user info ASAP
   user = User.stayLoggedIn(function(existingUser) {
     user = existingUser;
@@ -49,10 +57,18 @@ $(document).ready(function() {
   $('#new-story-form').on('submit', submitNewStory);
 
   /* other event listeners */
-  $('#next-link-newsfeed').on('click', function (event) {
+  // $('#more-link-newsfeed').on('click', function (event) {
+  //   let toSkip = $('#story-list-area p').length
+  //   generateStories(toSkip);
+  // })
+
+  $('#more-link-newsfeed').click(function(){
     let toSkip = $('#story-list-area p').length
     generateStories(toSkip);
-  })
+    $('html, body').animate({
+      scrollTop:$(document).height()-$(window).height()},
+      "swing");
+  });
 
   //when user submits login form, run User login method.
   $('#login-form').on('submit', function(event) {

@@ -5,8 +5,26 @@ body {
   padding-top: 56px;
 }
 
+body.loading .preloader-wrapper {
+  overflow: hidden;
+  display: block;
+}
+
 .nav-item {
   cursor: pointer;
+}
+
+.btn__custom {
+  color: #a2c5dc;
+  background-color: transparent;
+  background-image: none;
+  border-color: #a2c5dc;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.btn__custom:hover {
+  color: #547aff;
 }
 
 @media (max-width: 767.98px) {
@@ -95,14 +113,14 @@ body {
 }
 
 #brand-bar {
-  background-color: #f16509fa;
+  background-color: #e77f02f7;
   font-weight: 400;
-  color: #332e2e;
   height: 2rem;
+  color: 
 }
 
 #brand {
-  color: #332e2e;
+  color: black;
   font-size: large;
 }
 
@@ -170,6 +188,11 @@ body {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
+  margin-top: 3em;
+}
+
+#preloader-wrapper img {
+  width: 20px;
 }
 
 .book {

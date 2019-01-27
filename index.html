@@ -58,7 +58,7 @@
             placeholder="Search"
             aria-label="Search"
           />
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+          <button class="btn__custom my-2 my-sm-0" type="submit">
             Search
           </button>
         </form>
@@ -68,7 +68,7 @@
     <main role="main" class="container">
       <div
         id="brand-bar"
-        class="d-flex align-items-center p-3 text-white-50 rounded box-shadow m-top"
+        class="d-flex align-items-center p-3 text-white-50 rounded box-shadow mt-4"
       >
         <div
           class="d-flex mr-3 justify-content-center align-items-center logo-border"
@@ -90,13 +90,8 @@
 
       <div id="main-content" class="my-3 p-3 bg-white rounded box-shadow">
         <!-- preloader -->
-        <div id="preloader-wrapper">
-          <div class="book">
-            <div class="book__page"></div>
-            <div class="book__page"></div>
-            <div class="book__page"></div>
-          </div>
-          <span class="pulsate">Loading...</span>
+        <div id="preloader-wrapper" class="d-none">
+          <img src="./images/ajax-loader.gif" alt="loading...">
         </div>
         <!-- sign-up form -->
         <div id="sign-up-content" class="d-none">
@@ -150,7 +145,7 @@
         <div id="favorites-content" class="d-none">
           <h6 class="border-bottom border-gray pb-2 mb-0">Favorite stories</h6>
           <div class="media text-muted"><ul id="favorites-list-area"></ul></div>
-          <small class="d-block text-right mt-3"> <a href="#">Next</a> </small>
+          <small class="d-block text-right mt-3"> <a href="#">more</a> </small>
         </div>
 
         <!-- login form -->
@@ -247,7 +242,7 @@
             My stories
           </h6>
           <div class="media text-muted"><ul id="posted-story-list-area"></ul></div>
-          <small class="d-block text-right mt-3"> <a href="#">Next</a> </small>
+          <small class="d-block text-right mt-3"> <a href="#">Older stories</a> </small>
         </div>
 
         <!-- stories list -->
@@ -256,7 +251,7 @@
             Recent stories
           </h6>
           <div class="media text-muted"><ul id="story-list-area"></ul></div>
-          <small class="d-block text-right mt-3"> <a id="next-link-newsfeed" href="#">Next</a> </small>
+          <small class="d-block text-right mt-3"> <a id="more-link-newsfeed" href="#">Older stories</a> </small>
         </div>
       </div>
     </main>
