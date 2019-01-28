@@ -8,7 +8,7 @@ global StoryList
 let LOGGED_IN = false;
 
 // current user
-let user;
+let user = null;
 // list of stories
 let currentStoryList;
 
@@ -102,10 +102,9 @@ $(document).ready(function() {
     let name = $('#signup-name').val();
 
     User.signUp(username, password, name, function afterYouSignedIn(newUser) {
-      $('#main-content').empty().html(
-        '<h6>Thank you for signing up!</h6><small>You can now post stories and add stories to your favorites.</small>'
-      );
+      alert('Thank you for signing up! You can now post stories and add stories to your favorites.')
       LOGGED_IN = true;
+      user = newUser;
       $('#login-link').text('Logout');
     });
   });

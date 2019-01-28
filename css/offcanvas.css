@@ -11,6 +11,11 @@ body.loading .preloader-wrapper {
   font-family: "Ubuntu", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji" 
 }
 
+#sign-up-link:hover {
+  cursor: pointer;
+  color: #547aff;
+}
+
 .nav-item {
   cursor: pointer;
 }
