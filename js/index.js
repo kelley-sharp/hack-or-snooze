@@ -1,3 +1,8 @@
+/* 
+global User
+global StoryList
+*/
+
 /* Global Variables */
 
 let LOGGED_IN = false;
@@ -23,9 +28,15 @@ $(document).ready(function() {
     if (user) {
       LOGGED_IN = true;
       $('#login-link').text('Logout');
+    } else {
+      user = null;
+      LOGGED_IN = false;
+      location.reload();
+      $('#login-link').text('Login');
     }
     onlyShowStories();
   });
+
 
   /* nav-link event listeners */
 
@@ -36,7 +47,7 @@ $(document).ready(function() {
     onlyShowSignUp();
   });
   $('#login-link').on('click', function() {
-    onlyShowLogin();
+    handleLoginLogout ();
   });
   $('#my-stories-link').on('click', function() {
     onlyShowMyStories();
@@ -70,7 +81,7 @@ $(document).ready(function() {
     location.reload();
   })
 
-  //when user submits login form, run User login method.
+  //LOGIN: when user submits login form, run User login method.
   $('#login-form').on('submit', function(event) {
     event.preventDefault();
     let username = $('#login-username').val();
@@ -79,6 +90,7 @@ $(document).ready(function() {
       user = theUser;
       LOGGED_IN = true;
       $('#login-link').text('Logout');
+      onlyShowStories();
     });
   });
 
@@ -90,7 +102,7 @@ $(document).ready(function() {
     let name = $('#signup-name').val();
 
     User.signUp(username, password, name, function afterYouSignedIn(newUser) {
-      $('#main-content').html(
+      $('#main-content').empty().html(
         '<h6>Thank you for signing up!</h6><small>You can now post stories and add stories to your favorites.</small>'
       );
       LOGGED_IN = true;
@@ -98,6 +110,20 @@ $(document).ready(function() {
     });
   });
 });
+
+//
+function handleLoginLogout() {
+  $('#login-link').addClass("active");
+
+  // if logged in... call loggout and show logged out message
+  if (LOGGED_IN){
+    LOGGED_IN = false;
+    user = null;
+    alert('You have successfully logged out!')
+    $('#login-link').text('Login');
+  }
+  onlyShowLogin();
+}
 
 //show only stories
 function onlyShowStories() {
@@ -132,9 +158,11 @@ function onlyShowSignUp() {
 }
 
 function onlyShowLogin() {
+  
   //show login form
   $('#login-content').removeClass('d-none');
   $('#login-link').addClass("active");
+
   //hide all the other stuff
   $('#stories-content').addClass('d-none');
   $('#sign-up-content').addClass('d-none');
@@ -147,9 +175,9 @@ function onlyShowLogin() {
 }
 
 function onlyShowMyStories() {
-  if (LOGGED_IN !== true) {
+  if (LOGGED_IN === false) {
     alert('You must be logged in to post stories.');
-  } else {
+  } else if (LOGGED_IN === true) {
     //show new story form & my stories
     $('#my-stories-content').removeClass('d-none');
     $("#my-stories-link").addClass('active');
@@ -171,7 +199,7 @@ function onlyShowMyStories() {
 }
 
 function onlyShowFavorites() {
-  if (LOGGED_IN !== true) {
+  if (LOGGED_IN === false) {
     alert('You must be logged in to favorite stories.');
   } else {
     //show favorites
@@ -228,6 +256,7 @@ function generateStoryHTML(story) {
   let storyMarkup;
   let location = getLocation(story.url);
   let hostname = location.hostname;
+
   if (LOGGED_IN && user.favorites.find(s => s.storyId === story.storyId)) {
     storyMarkup = `<p class="media-body pb-3 pt-3 mb-0 small lh-125 border-bottom border-gray">
       <strong class="d-block text-gray-dark title">

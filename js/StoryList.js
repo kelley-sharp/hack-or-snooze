@@ -1,3 +1,4 @@
+/* global Story*/
 const API_URL = 'https://hack-or-snooze-v2.herokuapp.com';
 
 class StoryList {
