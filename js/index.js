@@ -31,7 +31,6 @@ $(document).ready(function() {
     } else {
       user = null;
       LOGGED_IN = false;
-      location.reload();
       $('#login-link').text('Login');
     }
     onlyShowStories();
@@ -59,7 +58,11 @@ $(document).ready(function() {
     if (LOGGED_IN) {
       toggleFavorite(event);
     } else {
-      alert('You must be logged in to favorite stories!');
+      let target = $( event.target );
+      let $more = $('#more-link-newsfeed');
+      if (!target.is($more)){
+        alert('You must be logged in to favorite stories!');
+      }
     }
   });
 
