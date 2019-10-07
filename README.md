@@ -6,7 +6,7 @@
 
 This is a knock-off of [Hacker News]('https://news.ycombinator.com/'). Hacker News is a social news website run by [Y-Combinator]('https://www.ycombinator.com/'). Users post stories mostly related to computer science and entrepreneurship. However, the stories for this project, Hack-or-Snooze, come from an API built by my [Rithm School]('https://www.rithmschool.com/') instructors and data is populated by the most recent cohort of students so they don't always make much sense, but the front-end was built by yours truly. 
 
-To view the site and play the game go [here](http://hackorsnooze.kelleysharp.me.s3-website-us-east-1.amazonaws.com/).
+To view the site go [here](http://hackorsnooze.kelleysharp.me.s3-website-us-east-1.amazonaws.com/).
 
 ### Features
 
