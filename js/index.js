@@ -12,16 +12,18 @@ let user = null;
 // list of stories
 let currentStoryList;
 
-let $body = $("body");
+let $body = $('body');
 
-$(document).on({
-  ajaxStart: function() { $body.addClass("loading");},
-  ajaxStop: function() { $body.removeClass("loading"); }    
-});
+$(document)
+  .ajaxStart(function() {
+    $body.addClass('loading');
+  })
+  .ajaxStop(function() {
+    $body.removeClass('loading');
+  });
 
 /* On Page Load */
 $(document).ready(function() {
-
   // attempt to grab token and get user info ASAP
   user = User.stayLoggedIn(function(existingUser) {
     user = existingUser;
@@ -36,7 +38,6 @@ $(document).ready(function() {
     onlyShowStories();
   });
 
-
   /* nav-link event listeners */
 
   $('#news-feed-link').on('click', function() {
@@ -46,7 +47,7 @@ $(document).ready(function() {
     onlyShowSignUp();
   });
   $('#login-link').on('click', function() {
-    handleLoginLogout ();
+    handleLoginLogout();
   });
   $('#my-stories-link').on('click', function() {
     onlyShowMyStories();
@@ -58,9 +59,9 @@ $(document).ready(function() {
     if (LOGGED_IN) {
       toggleFavorite(event);
     } else {
-      let target = $( event.target );
+      let target = $(event.target);
       let $more = $('#more-link-newsfeed');
-      if (!target.is($more)){
+      if (!target.is($more)) {
         alert('You must be logged in to favorite stories!');
       }
     }
@@ -71,18 +72,21 @@ $(document).ready(function() {
   $('#new-story-form').on('submit', submitNewStory);
 
   /* other event listeners */
-  $('#more-link-newsfeed').click(function(){
-    let toSkip = $('#story-list-area p').length
+  $('#more-link-newsfeed').click(function() {
+    let toSkip = $('#story-list-area p').length;
     generateStories(toSkip);
-    $('html, body').animate({
-      scrollTop:$(document).height()-$(window).height()},
-      "swing");
+    $('html, body').animate(
+      {
+        scrollTop: $(document).height() - $(window).height()
+      },
+      'swing'
+    );
   });
 
   // post a new story adds story to My stories under form
-  $('#btn__submit-story').click(function(){
+  $('#btn__submit-story').click(function() {
     location.reload();
-  })
+  });
 
   //LOGIN: when user submits login form, run User login method.
   $('#login-form').on('submit', function(event) {
@@ -105,7 +109,9 @@ $(document).ready(function() {
     let name = $('#signup-name').val();
 
     User.signUp(username, password, name, function afterYouSignedIn(newUser) {
-      alert('Thank you for signing up! You can now post stories and add stories to your favorites.')
+      alert(
+        'Thank you for signing up! You can now post stories and add stories to your favorites.'
+      );
       LOGGED_IN = true;
       user = newUser;
       $('#login-link').text('Logout');
@@ -115,13 +121,13 @@ $(document).ready(function() {
 
 //
 function handleLoginLogout() {
-  $('#login-link').addClass("active");
+  $('#login-link').addClass('active');
 
   // if logged in... call loggout and show logged out message
-  if (LOGGED_IN){
+  if (LOGGED_IN) {
     LOGGED_IN = false;
     user = null;
-    alert('You have successfully logged out!')
+    alert('You have successfully logged out!');
     $('#login-link').text('Login');
   }
   onlyShowLogin();
@@ -130,13 +136,13 @@ function handleLoginLogout() {
 //show only stories
 function onlyShowStories() {
   //if there aren't already stories on the page generate them.
-  if ($('#story-list-area p').length == 0){
+  if ($('#story-list-area p').length == 0) {
     generateStories();
   }
 
   //show stories
   $('#stories-content').removeClass('d-none');
-  $('#news-feed-link').addClass("active");
+  $('#news-feed-link').addClass('active');
 
   //hide all the other stuff
   $('#login-content').addClass('d-none');
@@ -144,9 +150,9 @@ function onlyShowStories() {
   $('#my-stories-content').addClass('d-none');
   $('#favorites-content').addClass('d-none');
   //remove active class from other stuff
-  $('#favorites-link').removeClass("active");
-  $('#my-stories-link').removeClass("active");
-  $('#login-link').removeClass("active");
+  $('#favorites-link').removeClass('active');
+  $('#my-stories-link').removeClass('active');
+  $('#login-link').removeClass('active');
 }
 
 function onlyShowSignUp() {
@@ -160,10 +166,9 @@ function onlyShowSignUp() {
 }
 
 function onlyShowLogin() {
-  
   //show login form
   $('#login-content').removeClass('d-none');
-  $('#login-link').addClass("active");
+  $('#login-link').addClass('active');
 
   //hide all the other stuff
   $('#stories-content').addClass('d-none');
@@ -171,9 +176,9 @@ function onlyShowLogin() {
   $('#my-stories-content').addClass('d-none');
   $('#favorites-content').addClass('d-none');
   //turn active off other links
-  $('#favorites-link').removeClass("active");
-  $('#news-feed-link').removeClass("active");
-  $('#my-stories-link').removeClass("active");
+  $('#favorites-link').removeClass('active');
+  $('#news-feed-link').removeClass('active');
+  $('#my-stories-link').removeClass('active');
 }
 
 function onlyShowMyStories() {
@@ -182,7 +187,7 @@ function onlyShowMyStories() {
   } else if (LOGGED_IN === true) {
     //show new story form & my stories
     $('#my-stories-content').removeClass('d-none');
-    $("#my-stories-link").addClass('active');
+    $('#my-stories-link').addClass('active');
 
     user.ownStories.forEach(story => {
       let storyMarkup = generateStoryHTML(story);
@@ -194,9 +199,9 @@ function onlyShowMyStories() {
     $('#sign-up-content').addClass('d-none');
     $('#favorites-content').addClass('d-none');
     //remove active class from other stuff
-    $('#favorites-link').removeClass("active");
-    $('#news-feed-link').removeClass("active");
-    $('#login-link').removeClass("active");
+    $('#favorites-link').removeClass('active');
+    $('#news-feed-link').removeClass('active');
+    $('#login-link').removeClass('active');
   }
 }
 
@@ -218,9 +223,9 @@ function onlyShowFavorites() {
     $('#sign-up-content').addClass('d-none');
     $('#my-stories-content').addClass('d-none');
     //remove active class from other stuff
-    $('#my-stories-link').removeClass("active");
-    $('#news-feed-link').removeClass("active");
-    $('#login-link').removeClass("active");
+    $('#my-stories-link').removeClass('active');
+    $('#news-feed-link').removeClass('active');
+    $('#login-link').removeClass('active');
   }
 }
 
