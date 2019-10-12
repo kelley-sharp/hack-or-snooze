@@ -12,10 +12,35 @@
 
     <title>Hack-Or-Snooze</title>
 
-    <!-- Bootstrap core CSS -->
+    <!-- Bootstrap + JQuery -->
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
     <!-- Custom styles for this template -->
     <link href="css/offcanvas.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Ubuntu:400,700"
+    />
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
@@ -26,7 +51,6 @@
 
   <body>
     <nav id="nav" class="navbar navbar-expand fixed-top navbar-dark">
-
       <div id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
@@ -44,24 +68,13 @@
             <a class="nav-link" id="login-link">Login</a>
           </li>
         </ul>
-        <!-- <form class="form-inline my-2 my-lg-0">
-          <input
-            class="form-control mr-sm-2"
-            type="text"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn__custom btn__custom--for-dk-bg my-2 my-sm-0" type="submit">
-            Search
-          </button>
-        </form> -->
       </div>
     </nav>
 
     <main role="main" class="container">
       <div
         id="brand-bar"
-        class="d-flex align-items-center p-3 text-white-50 rounded box-shadow mt-4"
+        class="d-flex align-items-center p-4 text-white-50 rounded-top box-shadow mt-4"
       >
         <div
           class="d-flex mr-3 justify-content-center align-items-center logo-border"
@@ -76,16 +89,11 @@
           />
         </div>
         <div class="lh-100">
-          <h6 id="brand" class="mb-0 lh-100">Hack-Or-Snooze</h6>
-          <small></small>
+          <h6 id="brand" class="mb-0 lh-100">Hack or Snooze</h6>
         </div>
       </div>
 
-      <div id="main-content" class="my-3 p-3 bg-white rounded box-shadow">
-        <!-- preloader -->
-        <div id="preloader-wrapper" class="d-none">
-          <img src="./images/ajax-loader.gif" alt="loading...">
-        </div>
+      <div id="main-content" class="mt-0 mb-3 p-3 bg-white rounded box-shadow">
         <!-- sign-up form -->
         <div id="sign-up-content" class="d-none">
           <h6 class="border-bottom border-gray pb-2 mb-0">Sign up</h6>
@@ -128,7 +136,12 @@
               </div>
               <div class="form-group row">
                 <div class="col-sm-10">
-                  <button type="submit" class="btn__custom btn__custom--for-light-bg">Go!</button>
+                  <button
+                    type="submit"
+                    class="btn__custom btn__custom--for-light-bg"
+                  >
+                    Go!
+                  </button>
                 </div>
               </div>
             </form>
@@ -138,7 +151,9 @@
         <div id="favorites-content" class="d-none">
           <h6 class="border-bottom border-gray pb-2 mb-0">Favorite stories</h6>
           <div class="media text-muted"><ul id="favorites-list-area"></ul></div>
-          <small class="d-block text-right mt-3"> <a href="#">older stories</a> </small>
+          <small class="d-block text-right mt-3">
+            <a href="#">older stories</a>
+          </small>
         </div>
 
         <!-- login form -->
@@ -173,7 +188,12 @@
               </div>
               <div class="form-group row">
                 <div class="col-sm-10">
-                  <button type="submit" class="btn__custom btn__custom--for-light-bg">Go!</button>
+                  <button
+                    type="submit"
+                    class="btn__custom btn__custom--for-light-bg"
+                  >
+                    Go!
+                  </button>
                 </div>
               </div>
               <small
@@ -226,7 +246,13 @@
               </div>
               <div class="form-group row">
                 <div class="col-sm-10">
-                  <button id="btn__submit-story" type="submit" class="btn__custom btn__custom--for-light-bg">Submit</button>
+                  <button
+                    id="btn__submit-story"
+                    type="submit"
+                    class="btn__custom btn__custom--for-light-bg"
+                  >
+                    Submit
+                  </button>
                 </div>
               </div>
             </form>
@@ -234,8 +260,12 @@
           <h6 class="border-bottom border-gray pt-3 pb-3 mb-0">
             My stories
           </h6>
-          <div class="media text-muted"><ul id="posted-story-list-area"></ul></div>
-          <small class="d-block text-right mt-3"> <a href="#">Older stories</a> </small>
+          <div class="media text-muted">
+            <ul id="posted-story-list-area"></ul>
+          </div>
+          <small class="d-block text-right mt-3">
+            <a href="#">Older stories</a>
+          </small>
         </div>
 
         <!-- stories list -->
@@ -244,37 +274,17 @@
             Recent stories
           </h6>
           <div class="media text-muted"><ul id="story-list-area"></ul></div>
-          <small class="d-block text-right mt-3"> <a id="more-link-newsfeed" href='#'>Older stories</a></small>
+          <small class="d-block text-right mt-3">
+            <a id="more-link-newsfeed" href="#">Older stories</a></small
+          >
         </div>
       </div>
     </main>
 
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
-
     <!-- JavaScript -->
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.min.js"
-      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
+
     <script src="js/globals.js"></script>
     <script src="js/story.js"></script>
     <script src="js/story-list.js"></script>
