@@ -1,5 +1,3 @@
-const BASE_URL = 'https://hack-or-snooze-v2.herokuapp.com';
-
 class User {
   constructor(userObj, token = localStorage.getItem('token')) {
     this.username = userObj.username;
@@ -26,7 +24,7 @@ class User {
    * @param {Function} done a callback to run when the API request finishes
    */
   static login(username, password, done) {
-    $.post(`${BASE_URL}/login`, { user: { username, password } }, function(
+    $.post(`${window.API_URL}/login`, { user: { username, password } }, function(
       response
     ) {
       let loggedInUser = new User(response.user, response.token);
@@ -36,7 +34,7 @@ class User {
 
   static signUp(username, password, name, signedUp) {
     $.post(
-      `${BASE_URL}/signup`,
+      `${window.API_URL}/signup`,
       { user: { username, password, name } },
       function(response) {
         let newUser = new User(response.user, response.token);
@@ -65,7 +63,7 @@ class User {
   retrieveDetails(done) {
     // make the API call
     $.get(
-      `${BASE_URL}/users/${this.username}?token=${this._loginToken}`,
+      `${window.API_URL}/users/${this.username}?token=${this._loginToken}`,
       response => {
         const { user } = response;
         this.username = user.username;
@@ -79,7 +77,7 @@ class User {
 
   addFavorite(storyId, done) {
     $.post(
-      `${BASE_URL}/users/${this.username}/favorites/${storyId}`,
+      `${window.API_URL}/users/${this.username}/favorites/${storyId}`,
       { token: this._loginToken },
       response => this.retrieveDetails(() => done(this))
     );
@@ -87,7 +85,7 @@ class User {
 
   removeFavorite(storyId, done) {
     $.ajax({
-      url: `${BASE_URL}/users/${this.username}/favorites/${storyId}`,
+      url: `${window.API_URL}/users/${this.username}/favorites/${storyId}`,
       method: 'DELETE',
       data: { token: this._loginToken },
       success: response => this.retrieveDetails(() => done(this))

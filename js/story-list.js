@@ -1,5 +1,4 @@
 /* global Story*/
-const API_URL = 'https://hack-or-snooze-v2.herokuapp.com';
 
 class StoryList {
   constructor(stories = []) {
@@ -7,7 +6,7 @@ class StoryList {
   }
 
   static getStories(toSkip = 0, done) {
-    $.get(`${API_URL}/stories?skip=${toSkip}&limit=10`, function processResponse(response) {
+    $.get(`${window.API_URL}/stories?skip=${toSkip}&limit=10`, function processResponse(response) {
       let storyList = new StoryList(
         response.stories.map(story => new Story(story))
       );
@@ -18,7 +17,7 @@ class StoryList {
   addStory(currentUser, storyObj, theStoryIsReadyNow) {
     let storyPostBody = { story: storyObj, token: currentUser._loginToken };
 
-    $.post(`${API_URL}/stories`, storyPostBody, (response) => {
+    $.post(`${window.API_URL}/stories`, storyPostBody, (response) => {
       // instantiate a story using the response
       let newStory = new Story(response.story);
       // update the user (to add to my stories)
