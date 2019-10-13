@@ -204,6 +204,7 @@ function onlyShowMyStories() {
     $("#my-stories-content").removeClass("d-none");
     $("#my-stories-link").addClass("active");
 
+    $("#posted-story-list-area").empty();
     user.ownStories.forEach(story => {
       let storyMarkup = generateStoryHTML(story);
       $("#posted-story-list-area").prepend(storyMarkup);
