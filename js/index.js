@@ -136,11 +136,12 @@ function handleLoginLogout() {
 
   // if logged in... call loggout and show logged out message
   if (LOGGED_IN) {
+    localStorage.clear();
     LOGGED_IN = false;
     user = null;
-    $("mainModal");
-    $("#mainModalLabel").text("Logged Out");
-    $("#mainModalMessage").text("You Have Successfully Logged Out.");
+    $("#main-modal").modal();
+    $("#main-modal-label").text("Logged Out");
+    $("#main-modal-message").text("You Have Successfully Logged Out.");
 
     $("#login-link").text("Login");
   }
