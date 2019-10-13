@@ -93,11 +93,22 @@ $(document).ready(function() {
     event.preventDefault();
     let username = $("#login-username").val();
     let password = $("#login-password").val();
-    User.login(username, password, function afterYouLoggedIn(theUser) {
-      user = theUser;
-      LOGGED_IN = true;
-      $("#login-link").text("Logout");
-      onlyShowStories();
+    User.login(username, password, function afterYouLoggedIn(result) {
+      if (result.error) {
+        console.log({ result: result });
+        if (result.error.message.toLowerCase().includes("user")) {
+          $("#login-username").addClass("is-invalid");
+          $("#login-username-feedback").text(result.error.message);
+        } else {
+          $("#login-password").addClass("is-invalid");
+          $("#login-password-feedback").text(result.error.message);
+        }
+      } else {
+        user = result.user;
+        LOGGED_IN = true;
+        $("#login-link").text("Logout");
+        onlyShowStories();
+      }
     });
   });
 
@@ -127,7 +138,10 @@ function handleLoginLogout() {
   if (LOGGED_IN) {
     LOGGED_IN = false;
     user = null;
-    alert("You have successfully logged out!");
+    $("mainModal");
+    $("#mainModalLabel").text("Logged Out");
+    $("#mainModalMessage").text("You Have Successfully Logged Out.");
+
     $("#login-link").text("Login");
   }
   onlyShowLogin();

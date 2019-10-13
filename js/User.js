@@ -1,19 +1,19 @@
 class User {
-  constructor(userObj, token = localStorage.getItem('token')) {
+  constructor(userObj, token = localStorage.getItem("token")) {
     this.username = userObj.username;
     this.name = userObj.name;
     this.favorites = userObj.favorites;
     this.ownStories = userObj.stories;
     this._loginToken = token;
     if (!this._loginToken) {
-      throw new Error('User instance needs a token to be created.');
+      throw new Error("User instance needs a token to be created.");
     }
     this.persist();
   }
 
   persist() {
-    localStorage.setItem('token', this._loginToken);
-    localStorage.setItem('username', this.username);
+    localStorage.setItem("token", this._loginToken);
+    localStorage.setItem("username", this.username);
   }
 
   /**
@@ -24,11 +24,15 @@ class User {
    * @param {Function} done a callback to run when the API request finishes
    */
   static login(username, password, done) {
-    $.post(`${window.API_URL}/login`, { user: { username, password } }, function(
-      response
-    ) {
-      let loggedInUser = new User(response.user, response.token);
-      done(loggedInUser);
+    $.post(
+      `${window.API_URL}/login`,
+      { user: { username, password } },
+      function(response) {
+        let loggedInUser = new User(response.user, response.token);
+        return done({ user: loggedInUser, error: null });
+      }
+    ).fail(function(response) {
+      return done({ user: null, error: response.responseJSON.error });
     });
   }
 
@@ -45,8 +49,8 @@ class User {
 
   static stayLoggedIn(done) {
     // check for username and token from local storage
-    let username = localStorage.getItem('username');
-    let token = localStorage.getItem('token');
+    let username = localStorage.getItem("username");
+    let token = localStorage.getItem("token");
 
     // if we have a username and token, we're logged in
     if (username && token) {
@@ -86,7 +90,7 @@ class User {
   removeFavorite(storyId, done) {
     $.ajax({
       url: `${window.API_URL}/users/${this.username}/favorites/${storyId}`,
-      method: 'DELETE',
+      method: "DELETE",
       data: { token: this._loginToken },
       success: response => this.retrieveDetails(() => done(this))
     });
