@@ -6,7 +6,7 @@
 
 This is a knock-off of [Hacker News]('https://news.ycombinator.com/'). Hacker News is a social news website run by [Y-Combinator]('https://www.ycombinator.com/') where users post stories mostly related to computer science and entrepreneurship or other intellectually stimulating topics.
 
-To view the site go [here](http://hackorsnooze.kelleysharp.me.s3-website-us-east-1.amazonaws.com/).
+To view the site go [here](https://kelleysharp-hackorsnooze.netlify.com/).
 
 ### Features
 
