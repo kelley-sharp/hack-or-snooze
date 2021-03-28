@@ -27,11 +27,11 @@ class User {
     $.post(
       `${window.API_URL}/login`,
       { user: { username, password } },
-      function(response) {
+      function (response) {
         let loggedInUser = new User(response.user, response.token);
         return done({ user: loggedInUser, error: null });
       }
-    ).fail(function(response) {
+    ).fail(function (response) {
       return done({ user: null, error: response.responseJSON.error });
     });
   }
@@ -40,7 +40,7 @@ class User {
     $.post(
       `${window.API_URL}/signup`,
       { user: { username, password, name } },
-      function(response) {
+      function (response) {
         let newUser = new User(response.user, response.token);
         signedUp(newUser);
       }
@@ -55,7 +55,7 @@ class User {
     // if we have a username and token, we're logged in
     if (username && token) {
       let existingUser = new User({ username }, token);
-      existingUser.retrieveDetails(function(updatedUser) {
+      existingUser.retrieveDetails(function (updatedUser) {
         return done(updatedUser);
       });
     } else {
@@ -65,10 +65,9 @@ class User {
   }
 
   retrieveDetails(done) {
-    // make the API call
     $.get(
       `${window.API_URL}/users/${this.username}?token=${this._loginToken}`,
-      response => {
+      (response) => {
         const { user } = response;
         this.username = user.username;
         this.name = user.name;
@@ -83,7 +82,7 @@ class User {
     $.post(
       `${window.API_URL}/users/${this.username}/favorites/${storyId}`,
       { token: this._loginToken },
-      response => this.retrieveDetails(() => done(this))
+      (response) => this.retrieveDetails(() => done(this))
     );
   }
 
@@ -92,7 +91,7 @@ class User {
       url: `${window.API_URL}/users/${this.username}/favorites/${storyId}`,
       method: "DELETE",
       data: { token: this._loginToken },
-      success: response => this.retrieveDetails(() => done(this))
+      success: (response) => this.retrieveDetails(() => done(this)),
     });
   }
 }

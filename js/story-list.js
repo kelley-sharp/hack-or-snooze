@@ -1,17 +1,18 @@
-/* global Story*/
-
 class StoryList {
   constructor(stories = []) {
     this.stories = stories;
   }
 
   static getStories(toSkip = 0, done) {
-    $.get(`${window.API_URL}/stories?skip=${toSkip}&limit=10`, function processResponse(response) {
-      let storyList = new StoryList(
-        response.stories.map(story => new Story(story))
-      );
-      done(storyList);
-    });
+    $.get(
+      `${window.API_URL}/stories?skip=${toSkip}&limit=10`,
+      function processResponse(response) {
+        let storyList = new StoryList(
+          response.stories.map((story) => new Story(story))
+        );
+        done(storyList);
+      }
+    );
   }
 
   addStory(currentUser, storyObj, theStoryIsReadyNow) {

@@ -1,4 +1,3 @@
-
 class Story {
   constructor(storyObj) {
     this.author = storyObj.author;
@@ -6,7 +5,6 @@ class Story {
     this.title = storyObj.title;
     this.url = storyObj.url;
     this.username = storyObj.username;
-    this.userToken = '';
+    this.userToken = "";
   }
-
 }

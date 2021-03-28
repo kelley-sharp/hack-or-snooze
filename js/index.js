@@ -15,17 +15,17 @@ let currentStoryList;
 let $body = $("body");
 
 $(document)
-  .ajaxStart(function() {
+  .ajaxStart(function () {
     $body.addClass("loading");
   })
-  .ajaxStop(function() {
+  .ajaxStop(function () {
     $body.removeClass("loading");
   });
 
 /* On Page Load */
-$(document).ready(function() {
+$(document).ready(function () {
   // attempt to grab token and get user info ASAP
-  user = User.stayLoggedIn(function(existingUser) {
+  user = User.stayLoggedIn(function (existingUser) {
     user = existingUser;
     if (user) {
       LOGGED_IN = true;
@@ -40,22 +40,22 @@ $(document).ready(function() {
 
   /* nav-link event listeners */
 
-  $("#news-feed-link").on("click", function() {
+  $("#news-feed-link").on("click", function () {
     onlyShowStories();
   });
-  $("#sign-up-link").on("click", function() {
+  $("#sign-up-link").on("click", function () {
     onlyShowSignUp();
   });
-  $("#login-link").on("click", function() {
+  $("#login-link").on("click", function () {
     handleLoginLogout();
   });
-  $("#my-stories-link").on("click", function() {
+  $("#my-stories-link").on("click", function () {
     onlyShowMyStories();
   });
-  $("#favorites-link").on("click", function() {
+  $("#favorites-link").on("click", function () {
     onlyShowFavorites();
   });
-  $("#stories-content").on("click", function(event) {
+  $("#stories-content").on("click", function (event) {
     if (LOGGED_IN) {
       toggleFavorite(event);
     } else {
@@ -72,24 +72,24 @@ $(document).ready(function() {
   $("#new-story-form").on("submit", submitNewStory);
 
   /* other event listeners */
-  $("#more-link-newsfeed").click(function() {
+  $("#more-link-newsfeed").click(function () {
     let toSkip = $("#story-list-area p").length;
     generateStories(toSkip);
     $("html, body").animate(
       {
-        scrollTop: $(document).height() - $(window).height()
+        scrollTop: $(document).height() - $(window).height(),
       },
       "swing"
     );
   });
 
   // post a new story adds story to My stories under form
-  $("#btn__submit-story").click(function() {
+  $("#btn__submit-story").click(function () {
     location.reload();
   });
 
   //LOGIN: when user submits login form, run User login method.
-  $("#login-form").on("submit", function(event) {
+  $("#login-form").on("submit", function (event) {
     event.preventDefault();
     let username = $("#login-username").val();
     let password = $("#login-password").val();
@@ -113,7 +113,7 @@ $(document).ready(function() {
   });
 
   //when user submits sign-up, run User sign-in method.
-  $("#sign-up-form").on("submit", function(e) {
+  $("#sign-up-form").on("submit", function (e) {
     e.preventDefault();
     let username = $("#signup-username").val();
     let password = $("#signup-password").val();
@@ -205,7 +205,7 @@ function onlyShowMyStories() {
     $("#my-stories-link").addClass("active");
 
     $("#posted-story-list-area").empty();
-    user.ownStories.forEach(story => {
+    user.ownStories.forEach((story) => {
       let storyMarkup = generateStoryHTML(story);
       $("#posted-story-list-area").prepend(storyMarkup);
     });
@@ -229,7 +229,7 @@ function onlyShowFavorites() {
     $("#favorites-content").removeClass("d-none");
     $("#favorites-list-area").empty();
     $("#favorites-link").addClass("active");
-    user.favorites.forEach(story => {
+    user.favorites.forEach((story) => {
       let storyMarkup = generateStoryHTML(story);
       $("#favorites-list-area").append(storyMarkup);
     });
@@ -250,20 +250,22 @@ function toggleFavorite(event) {
 
   //if DOES NOT HAVE solid star, add it and add to favorites, update user.
   if (!$(event.target).hasClass("fas")) {
-    user.addFavorite(storyId, function afterFavoriteAdded(
-      userWithAddedFavorite
-    ) {
-      user = userWithAddedFavorite;
-      $(event.target).addClass("fas");
-    });
+    user.addFavorite(
+      storyId,
+      function afterFavoriteAdded(userWithAddedFavorite) {
+        user = userWithAddedFavorite;
+        $(event.target).addClass("fas");
+      }
+    );
   } else {
     //if the story HAS solid star, remove it, remove from favorites, update user.
-    user.removeFavorite(storyId, function afterFavoriteRemoved(
-      userWithRemovedFavorite
-    ) {
-      user = userWithRemovedFavorite;
-      $(event.target).removeClass("fas");
-    });
+    user.removeFavorite(
+      storyId,
+      function afterFavoriteRemoved(userWithRemovedFavorite) {
+        user = userWithRemovedFavorite;
+        $(event.target).removeClass("fas");
+      }
+    );
   }
 }
 
@@ -277,8 +279,7 @@ function getLocation(href) {
 
 function generateLoadingSpinnerHTML(spinnerId = "spinner") {
   return `
-  <div id=${spinnerId} class="mw-100 text-align-center">
-    <strong>Loading...</strong>
+  <div id=${spinnerId} class="text-align-center" style="height: 500px">
     <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
   </div>
 `;
@@ -289,7 +290,7 @@ function generateStoryHTML(story) {
   let location = getLocation(story.url);
   let hostname = location.hostname;
 
-  if (LOGGED_IN && user.favorites.find(s => s.storyId === story.storyId)) {
+  if (LOGGED_IN && user.favorites.find((s) => s.storyId === story.storyId)) {
     storyMarkup = `<p class="media-body pb-3 pt-3 mb-0 small lh-125 border-bottom border-gray">
       <strong class="d-block text-gray-dark title">
         <i id='${story.storyId}'class="far fa-star fas"></i>
@@ -327,7 +328,7 @@ function generateStories(toSkip) {
     $(`#${spinnerId}`).remove();
     $("#story-list-area").show();
     currentStoryList = currentStories;
-    currentStoryList.stories.forEach(story => {
+    currentStoryList.stories.forEach((story) => {
       let storyMarkup = generateStoryHTML(story);
       $("#story-list-area").append(storyMarkup);
     });

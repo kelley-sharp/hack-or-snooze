@@ -18,6 +18,6 @@ To view the site go [here](https://kelleysharp-hackorsnooze.netlify.com/).
 
 ## How to run this app locally
 
-1. Clone this repository into a new directory.
+1. Clone this repository.
 
 2. Right click on index.html and open the file in default browser.
