@@ -322,8 +322,7 @@ function generateStoryHTML(story) {
 //to get the list of stories
 function generateStories(toSkip) {
   const spinnerId = "stories-spinner";
-  $("#main-content").prepend(generateLoadingSpinnerHTML(spinnerId));
-  $("#story-list-area").hide();
+  $("#story-list-area").append(generateLoadingSpinnerHTML(spinnerId));
   StoryList.getStories(toSkip, function handleResponse(currentStories) {
     $(`#${spinnerId}`).remove();
     $("#story-list-area").show();
