@@ -279,7 +279,7 @@ function getLocation(href) {
 
 function generateLoadingSpinnerHTML(spinnerId = "spinner") {
   return `
-  <div id=${spinnerId} class="text-align-center" style="height: 500px">
+  <div id=${spinnerId} class="text-align-center d-flex justify-content-center mt-5 mw-100 mh-100">
     <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
   </div>
 `;
